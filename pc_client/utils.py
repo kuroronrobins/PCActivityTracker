@@ -32,18 +32,27 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(me
 def load_config(config_path="config.ini"):
     """
     設定ファイル config.ini を UTF-8 エンコーディングで読み込み、設定オブジェクトを返す。
+    relative pathの場合、通常はスクリプトがあるディレクトリから、EXE化時はEXEファイルのあるディレクトリから読み込む。
 
     Raises:
         FileNotFoundError: 指定ファイルが存在しない場合
     Returns:
         configparser.ConfigParser: 読み込んだ設定オブジェクト
     """
+    import sys
+    if getattr(sys, 'frozen', False):
+        # EXE化された状態の場合、EXEがあるディレクトリを基準とする
+        base_dir = os.path.dirname(sys.executable)
+    else:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+    full_path = os.path.join(base_dir, config_path)
+    if not os.path.exists(full_path):
+        raise FileNotFoundError(f"Configuration file '{full_path}' not found.")
     config = configparser.ConfigParser()
-    if not os.path.exists(config_path):
-        raise FileNotFoundError(f"Configuration file '{config_path}' not found.")
-    with open(config_path, "r", encoding="utf-8") as f:
+    with open(full_path, "r", encoding="utf-8") as f:
         config.read_file(f)
     return config
+
 
 
 def ensure_table_exists(db_path, timeout):
@@ -193,7 +202,6 @@ def get_start_time_for_duration(db_path, pc_id, user_account, timeout):
         cursor.execute(query, (pc_id, user_account))
         result = cursor.fetchone()
         return result[0] if result else None
-
 
 # --------------- Startup Functions ---------------
 def get_startup_info():

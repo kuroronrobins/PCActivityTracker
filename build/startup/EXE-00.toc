@@ -96,7 +96,7 @@
  [],
  False,
  False,
- 1744531476,
+ 1744543806,
  [('run.exe',
    'C:\\Users\\kuroron\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
    'EXECUTABLE')],

@@ -1,4 +1,3 @@
-requests
-aiohttp
-pywin32
-WMI
+# requirements.txt
+# PCActivityTracker の実行や EXE 化に必要な依存パッケージ
+pyinstaller>=5.0

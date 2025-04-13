@@ -1,0 +1,4 @@
+2025-04-13 20:28:01,847 [INFO] Network share C:\Users\kuroron\Documents\R&D\20250409_PCActivityTracker\pc_server_test\central_db.sqlite3 is available.
+2025-04-13 20:28:01,850 [INFO] Ensured that table 'session_logs' exists in the database.
+2025-04-13 20:28:01,850 [INFO] Shutdown info: {'pc_id': 'Vertex-PC', 'user_account': 'kuroron', 'shutdown_time': '2025-04-13 20:28:01', 'weekday': 'Sun', 'session_type': 'normal', 'duration': 0}
+2025-04-13 20:28:01,857 [INFO] Shutdown record updated successfully.
