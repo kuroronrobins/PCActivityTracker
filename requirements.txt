@@ -1,0 +1,4 @@
+requests
+aiohttp
+pywin32
+WMI
