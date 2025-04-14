@@ -11,14 +11,14 @@ import socket
 import datetime
 import logging
 
-# グループポリシー経由で実行される際、カレントディレクトリが不定になるため、スクリプトのあるディレクトリに変更
+# グループポリシー経由で実行される場合、カレントディレクトリが不定になるため、スクリプトのあるディレクトリに変更
 if getattr(sys, 'frozen', False):
     base_dir = os.path.dirname(sys.executable)
 else:
     base_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(base_dir)
 
-# ログファイルの絶対パスを設定（EXE と同じディレクトリ内に "application.log" を作成）
+# ログファイルの絶対パスを設定（EXEと同じディレクトリ内に "application.log" を作成）
 log_path = os.path.join(base_dir, "application.log")
 logging.basicConfig(
     level=logging.INFO,  # 初期値は INFO だが、後ほど debug 値により変更する
@@ -81,10 +81,13 @@ def main():
     # シャットダウン時の情報を収集
     shutdown_info = get_shutdown_info()
 
-    # 最新の起動レコードから start_time と user_account を取得
+    # 最新の起動レコードから start_time と user_account を取得する
+    # get_start_time_for_duration から返されるタプルが2以上の要素を持つ場合、
+    # 必要な先頭2要素（start_time, user_account）だけを抽出する
     result = get_start_time_for_duration(db_path, shutdown_info['pc_id'], shutdown_info['user_account'], timeout)
     if result:
-        start_time_str, db_user_account = result
+        start_time_str = result[0]
+        db_user_account = result[1]
         shutdown_info['duration'] = compute_duration(start_time_str, shutdown_info['shutdown_time'])
         # 起動時に記録された user_account を保持する
         shutdown_info['user_account'] = db_user_account
